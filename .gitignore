@@ -1,0 +1,54 @@
+# Build directories
+/build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# Executables
+*.exe
+*.out
+*.app
+*.dll
+*.so
+*.dylib
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln
+*.vcxproj*
+*.xcodeproj
+*.xcworkspace
+
+# CMake specific
+/.cmake/
+CTestTestfile.cmake
+Testing/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Backup files
+*~
+*.swp
+*.bak
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Packages and dependencies
+*.a
+*.lib
+*.pdb
+*.obj
+*.o
+
+# Own directories
+standards/
