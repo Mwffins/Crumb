@@ -11,7 +11,7 @@ The goal is to build the foundation for rendering, input, physics, and scene man
 
 - [ ] Game Loop (input → update → render)
 - [ ] Rendering system
-  - [ ] Basic shaders
+  - [x] Basic shaders
   - [ ] Sprite class with textures
   - [ ] 2D rendering with batching
 - [ ] Asset Management
