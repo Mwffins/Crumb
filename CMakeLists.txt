@@ -20,6 +20,8 @@ add_executable(crumb
     src/main.cpp 
     src/glad.c 
     src/Rendering/Shader.cpp
+    src/Core/Application.cpp
+    src/Core/Engine.cpp
 )
 
 target_include_directories(crumb PRIVATE dependencies)
@@ -27,3 +29,8 @@ target_include_directories(crumb PRIVATE dependencies)
 target_compile_definitions(crumb PRIVATE GLFW_STATIC)
 
 target_link_libraries(crumb PRIVATE glfw OpenGL::GL)
+
+add_custom_command(TARGET crumb POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:crumb>/assets
+)
