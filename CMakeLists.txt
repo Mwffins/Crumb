@@ -16,7 +16,11 @@ FetchContent_Declare(
 set(GLFW_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(glfw)
 
-add_executable(crumb src/main.cpp src/glad.c)
+add_executable(crumb 
+    src/main.cpp 
+    src/glad.c 
+    src/Rendering/Shader.cpp
+)
 
 target_include_directories(crumb PRIVATE dependencies)
 
