@@ -58,5 +58,5 @@ target_link_libraries(test_game PRIVATE crumb_engine)
 
 add_custom_command(TARGET test_game POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:test_game>/assets
+    ${CMAKE_SOURCE_DIR}/examples/TestGame/assets $<TARGET_FILE_DIR:test_game>/assets
 )
