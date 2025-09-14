@@ -18,6 +18,8 @@ namespace Crumb
         void update(float delta_time) override;
         void render() override;
         void shutdown() override;
+
+        bool onKeyPressed(const KeyPressedEvent &event) override;
     };
 
 }

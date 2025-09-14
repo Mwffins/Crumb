@@ -2,6 +2,7 @@
 #include "Core/Engine.h"
 #include "Core/AssetManager.h"
 #include "Core/InputManager.h"
+#include "Utilities/KeyUtils.h"
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
@@ -32,10 +33,14 @@ namespace Crumb
 
     void TestApplication::update(float delta_time)
     {
-        if (InputManager::isKeyJustPressed(GLFW_KEY_SPACE))
-        {
-            std::cout << "Space key pressed" << std::endl;
-        }
+    }
+
+    bool TestApplication::onKeyPressed(const KeyPressedEvent &event)
+    {
+        std::cout << "Key pressed: " << KeyUtils::keyToString(event.key)
+                  << " (code: " << event.key << ")" << std::endl;
+
+        return false;
     }
 
     void TestApplication::render()

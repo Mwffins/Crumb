@@ -34,6 +34,7 @@ add_executable(crumb
     src/Core/AssetManager.cpp
     src/Core/InputManager.cpp
     src/Core/Engine.cpp
+    src/Utilities/KeyUtils.cpp
 )
 
 target_include_directories(crumb PRIVATE 
