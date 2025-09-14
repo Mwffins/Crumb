@@ -9,7 +9,7 @@ The goal is to build the foundation for rendering, input, physics, and scene man
 
 ### Phase 1: Core Engine Components
 
-- [ ] Game Loop (input → update → render)
+- [x] Game Loop (input → update → render)
 - [ ] Rendering system
   - [x] Basic shaders
   - [x] Sprite class with textures
