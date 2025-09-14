@@ -17,16 +17,16 @@ namespace TestGame
         cr::AssetManager::get().loadTexture("player", "assets/sprites/player.png");
 
         m_currentScene = std::make_unique<cr::Scene>("MainScene");
-        
-        Player* player = m_currentScene->createGameObject<Player>("MainPlayer", 
-                                                                  glm::vec2(100.0f, 100.0f), 
+
+        Player *player = m_currentScene->createGameObject<Player>("MainPlayer",
+                                                                  glm::vec2(100.0f, 100.0f),
                                                                   glm::vec2(128.0f, 128.0f));
         player->setSpeed(300.0f);
-        
+
         m_currentScene->initialize();
 
         glClearColor(0.76f, 0.60f, 0.42f, 1.0f);
-        
+
         return true;
     }
 
@@ -36,7 +36,7 @@ namespace TestGame
 
         if (m_currentScene)
         {
-            cr::Renderer2D* renderer = m_engine->getRenderer();
+            cr::Renderer2D *renderer = m_engine->getRenderer();
             renderer->begin();
             m_currentScene->render(renderer);
             renderer->end();
@@ -61,15 +61,15 @@ namespace TestGame
     }
 
     bool TestApplication::onKeyPressed(const cr::KeyPressedEvent &event)
-    {   
+    {
         if (m_currentScene && m_currentScene->dispatchKeyPressed(event))
         {
             return true;
         }
-        
+
         return false;
     }
-    
+
     bool TestApplication::onKeyReleased(const cr::KeyReleasedEvent &event)
     {
         if (m_currentScene && m_currentScene->dispatchKeyReleased(event))
@@ -78,7 +78,7 @@ namespace TestGame
         }
         return false;
     }
-    
+
     bool TestApplication::onMouseButtonPressed(const cr::MouseButtonPressedEvent &event)
     {
         if (m_currentScene && m_currentScene->dispatchMouseButtonPressed(event))
@@ -87,7 +87,7 @@ namespace TestGame
         }
         return false;
     }
-    
+
     bool TestApplication::onMouseButtonReleased(const cr::MouseButtonReleasedEvent &event)
     {
         if (m_currentScene && m_currentScene->dispatchMouseButtonReleased(event))
@@ -96,7 +96,7 @@ namespace TestGame
         }
         return false;
     }
-    
+
     bool TestApplication::onMouseMoved(const cr::MouseMovedEvent &event)
     {
         if (m_currentScene && m_currentScene->dispatchMouseMoved(event))
@@ -105,7 +105,7 @@ namespace TestGame
         }
         return false;
     }
-    
+
     bool TestApplication::onMouseScrolled(const cr::MouseScrolledEvent &event)
     {
         if (m_currentScene && m_currentScene->dispatchMouseScrolled(event))

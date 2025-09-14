@@ -5,36 +5,38 @@
 
 namespace Crumb
 {
-    Scene::Scene(const std::string& name)
+    Scene::Scene(const std::string &name)
         : m_name(name), m_initialized(false)
     {
     }
-    
+
     Scene::~Scene()
     {
         shutdown();
     }
-    
+
     void Scene::initialize()
     {
-        if (m_initialized) return;
-        
-        for (auto& gameObject : m_gameObjects)
+        if (m_initialized)
+            return;
+
+        for (auto &gameObject : m_gameObjects)
         {
             if (gameObject->isActive())
             {
                 gameObject->initialize();
             }
         }
-        
+
         m_initialized = true;
     }
-    
+
     void Scene::update(float deltaTime)
     {
-        if (!m_initialized) return;
-        
-        for (auto& gameObject : m_gameObjects)
+        if (!m_initialized)
+            return;
+
+        for (auto &gameObject : m_gameObjects)
         {
             if (gameObject->isActive())
             {
@@ -42,12 +44,13 @@ namespace Crumb
             }
         }
     }
-    
-    void Scene::render(Renderer2D* renderer)
+
+    void Scene::render(Renderer2D *renderer)
     {
-        if (!m_initialized) return;
-        
-        for (auto& gameObject : m_gameObjects)
+        if (!m_initialized)
+            return;
+
+        for (auto &gameObject : m_gameObjects)
         {
             if (gameObject->isActive())
             {
@@ -55,43 +58,45 @@ namespace Crumb
             }
         }
     }
-    
+
     void Scene::shutdown()
     {
-        if (!m_initialized) return;
-        
-        for (auto& gameObject : m_gameObjects)
+        if (!m_initialized)
+            return;
+
+        for (auto &gameObject : m_gameObjects)
         {
             gameObject->shutdown();
         }
-        
+
         m_gameObjects.clear();
         m_namedObjects.clear();
         m_initialized = false;
     }
-    
+
     void Scene::addGameObject(std::unique_ptr<GameObject> gameObject)
     {
-        if (!gameObject) return;
-        
+        if (!gameObject)
+            return;
+
         gameObject->setScene(this);
         m_namedObjects[gameObject->getName()] = gameObject.get();
-        
+
         if (m_initialized && gameObject->isActive())
         {
             gameObject->initialize();
         }
-        
+
         m_gameObjects.push_back(std::move(gameObject));
     }
-    
-    GameObject* Scene::findGameObject(const std::string& name) const
+
+    GameObject *Scene::findGameObject(const std::string &name) const
     {
         auto it = m_namedObjects.find(name);
         return (it != m_namedObjects.end()) ? it->second : nullptr;
     }
-    
-    void Scene::removeGameObject(const std::string& name)
+
+    void Scene::removeGameObject(const std::string &name)
     {
         auto it = m_namedObjects.find(name);
         if (it != m_namedObjects.end())
@@ -99,16 +104,18 @@ namespace Crumb
             removeGameObject(it->second);
         }
     }
-    
-    void Scene::removeGameObject(GameObject* gameObject)
+
+    void Scene::removeGameObject(GameObject *gameObject)
     {
-        if (!gameObject) return;
-        
+        if (!gameObject)
+            return;
+
         auto it = std::find_if(m_gameObjects.begin(), m_gameObjects.end(),
-            [gameObject](const std::unique_ptr<GameObject>& obj) {
-                return obj.get() == gameObject;
-            });
-        
+                               [gameObject](const std::unique_ptr<GameObject> &obj)
+                               {
+                                   return obj.get() == gameObject;
+                               });
+
         if (it != m_gameObjects.end())
         {
             (*it)->shutdown();
@@ -116,10 +123,10 @@ namespace Crumb
             m_gameObjects.erase(it);
         }
     }
-    
-    bool Scene::dispatchKeyPressed(const KeyPressedEvent& event)
+
+    bool Scene::dispatchKeyPressed(const KeyPressedEvent &event)
     {
-        for (auto& gameObject : m_gameObjects)
+        for (auto &gameObject : m_gameObjects)
         {
             if (gameObject->isActive() && gameObject->onKeyPressed(event))
             {
@@ -128,10 +135,10 @@ namespace Crumb
         }
         return false;
     }
-    
-    bool Scene::dispatchKeyReleased(const KeyReleasedEvent& event)
+
+    bool Scene::dispatchKeyReleased(const KeyReleasedEvent &event)
     {
-        for (auto& gameObject : m_gameObjects)
+        for (auto &gameObject : m_gameObjects)
         {
             if (gameObject->isActive() && gameObject->onKeyReleased(event))
             {
@@ -140,10 +147,10 @@ namespace Crumb
         }
         return false;
     }
-    
-    bool Scene::dispatchMouseButtonPressed(const MouseButtonPressedEvent& event)
+
+    bool Scene::dispatchMouseButtonPressed(const MouseButtonPressedEvent &event)
     {
-        for (auto& gameObject : m_gameObjects)
+        for (auto &gameObject : m_gameObjects)
         {
             if (gameObject->isActive() && gameObject->onMouseButtonPressed(event))
             {
@@ -152,10 +159,10 @@ namespace Crumb
         }
         return false;
     }
-    
-    bool Scene::dispatchMouseButtonReleased(const MouseButtonReleasedEvent& event)
+
+    bool Scene::dispatchMouseButtonReleased(const MouseButtonReleasedEvent &event)
     {
-        for (auto& gameObject : m_gameObjects)
+        for (auto &gameObject : m_gameObjects)
         {
             if (gameObject->isActive() && gameObject->onMouseButtonReleased(event))
             {
@@ -164,10 +171,10 @@ namespace Crumb
         }
         return false;
     }
-    
-    bool Scene::dispatchMouseMoved(const MouseMovedEvent& event)
+
+    bool Scene::dispatchMouseMoved(const MouseMovedEvent &event)
     {
-        for (auto& gameObject : m_gameObjects)
+        for (auto &gameObject : m_gameObjects)
         {
             if (gameObject->isActive() && gameObject->onMouseMoved(event))
             {
@@ -176,10 +183,10 @@ namespace Crumb
         }
         return false;
     }
-    
-    bool Scene::dispatchMouseScrolled(const MouseScrolledEvent& event)
+
+    bool Scene::dispatchMouseScrolled(const MouseScrolledEvent &event)
     {
-        for (auto& gameObject : m_gameObjects)
+        for (auto &gameObject : m_gameObjects)
         {
             if (gameObject->isActive() && gameObject->onMouseScrolled(event))
             {

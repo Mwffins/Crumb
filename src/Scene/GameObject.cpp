@@ -3,12 +3,12 @@
 
 namespace Crumb
 {
-    GameObject::GameObject(const std::string& name, const glm::vec2& position, const glm::vec2& size)
+    GameObject::GameObject(const std::string &name, const glm::vec2 &position, const glm::vec2 &size)
         : m_name(name), m_position(position), m_size(size), m_active(true), m_scene(nullptr)
     {
     }
-    
-    bool GameObject::intersects(const GameObject& other) const
+
+    bool GameObject::intersects(const GameObject &other) const
     {
         return (m_position.x < other.m_position.x + other.m_size.x &&
                 m_position.x + m_size.x > other.m_position.x &&

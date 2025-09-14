@@ -7,19 +7,19 @@ namespace Crumb
     namespace KeyUtils
     {
         std::string keyToString(int key);
-        
+
         std::string mouseButtonToString(int button);
-        
+
         bool isLetterKey(int key);
-        
+
         bool isNumberKey(int key);
-        
+
         bool isFunctionKey(int key);
-        
+
         bool isArrowKey(int key);
-        
+
         char getLetterFromKey(int key);
-        
+
         char getNumberFromKey(int key);
     }
 }
