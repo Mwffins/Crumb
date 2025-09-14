@@ -96,6 +96,7 @@ namespace Crumb
         }
 
         InputManager::initialize(m_window);
+        InputManager::setApplication(m_application.get());
         m_application->initialize();
 
         float lastTime = glfwGetTime();

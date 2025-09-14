@@ -1,4 +1,6 @@
 #pragma once
+#include "Event.h"
+#include "EventDispatcher.h"
 
 namespace Crumb
 {
@@ -19,5 +21,14 @@ namespace Crumb
         virtual void update(float delta_time) {}
         virtual void render() {}
         virtual void shutdown() {}
+
+        virtual bool onKeyPressed(const KeyPressedEvent &event) { return false; }
+        virtual bool onKeyReleased(const KeyReleasedEvent &event) { return false; }
+        virtual bool onMouseButtonPressed(const MouseButtonPressedEvent &event) { return false; }
+        virtual bool onMouseButtonReleased(const MouseButtonReleasedEvent &event) { return false; }
+        virtual bool onMouseMoved(const MouseMovedEvent &event) { return false; }
+        virtual bool onMouseScrolled(const MouseScrolledEvent &event) { return false; }
+
+        void dispatchEvent(const Event &event);
     };
 }
