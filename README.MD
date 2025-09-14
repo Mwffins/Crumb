@@ -17,7 +17,7 @@ The goal is to build the foundation for rendering, input, physics, and scene man
 - [ ] Asset Management
 - [ ] Scene & Entity Management
 - [ ] Physics & Collision Detection (basic AABB)
-- [ ] Input & Event system
+- [x] Input & Event system
 
 ### Phase 2: Advanced Features
 
