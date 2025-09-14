@@ -11,7 +11,7 @@ int main()
         return -1;
     }
 
-    engine.setApplication(std::make_unique<Crumb::TestApplication>());
+    engine.setApplication(std::make_unique<TestGame::TestApplication>());
 
     engine.run();
 

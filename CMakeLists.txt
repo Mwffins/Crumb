@@ -23,10 +23,8 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glm)
 
-add_executable(crumb 
-    src/main.cpp 
+add_library(crumb_engine
     src/glad.c 
-    src/TestApplication.cpp
     src/Rendering/Renderer2D.cpp
     src/Rendering/Sprite.cpp
     src/Rendering/Shader.cpp
@@ -35,18 +33,30 @@ add_executable(crumb
     src/Core/InputManager.cpp
     src/Core/Engine.cpp
     src/Utilities/KeyUtils.cpp
+    src/Scene/GameObject.cpp
+    src/Scene/Scene.cpp
 )
 
-target_include_directories(crumb PRIVATE 
-    dependencies
-    dependencies/stb
+target_include_directories(crumb_engine 
+    PUBLIC 
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+    PRIVATE 
+        dependencies
+        dependencies/stb
 )
 
-target_compile_definitions(crumb PRIVATE GLFW_STATIC)
+target_compile_definitions(crumb_engine PRIVATE GLFW_STATIC)
+target_link_libraries(crumb_engine PUBLIC glfw OpenGL::GL glm::glm)
 
-target_link_libraries(crumb PRIVATE glfw OpenGL::GL glm::glm)
+add_executable(test_game
+    examples/TestGame/main.cpp
+    examples/TestGame/TestApplication.cpp
+    examples/TestGame/GameObjects/Player.cpp
+)
 
-add_custom_command(TARGET crumb POST_BUILD
+target_link_libraries(test_game PRIVATE crumb_engine)
+
+add_custom_command(TARGET test_game POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:crumb>/assets
+    ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:test_game>/assets
 )
