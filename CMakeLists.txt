@@ -16,19 +16,33 @@ FetchContent_Declare(
 set(GLFW_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(glfw)
 
+FetchContent_Declare(
+    glm
+    GIT_REPOSITORY https://github.com/g-truc/glm.git
+    GIT_TAG 1.0.1
+)
+FetchContent_MakeAvailable(glm)
+
 add_executable(crumb 
     src/main.cpp 
     src/glad.c 
+    src/TestApplication.cpp
+    src/Rendering/Renderer2D.cpp
+    src/Rendering/Sprite.cpp
     src/Rendering/Shader.cpp
     src/Core/Application.cpp
+    src/Core/AssetManager.cpp
     src/Core/Engine.cpp
 )
 
-target_include_directories(crumb PRIVATE dependencies)
+target_include_directories(crumb PRIVATE 
+    dependencies
+    dependencies/stb
+    )
 
 target_compile_definitions(crumb PRIVATE GLFW_STATIC)
 
-target_link_libraries(crumb PRIVATE glfw OpenGL::GL)
+target_link_libraries(crumb PRIVATE glfw OpenGL::GL glm::glm)
 
 add_custom_command(TARGET crumb POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
