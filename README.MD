@@ -14,7 +14,7 @@ The goal is to build the foundation for rendering, input, physics, and scene man
   - [x] Basic shaders
   - [x] Sprite class with textures
   - [ ] 2D rendering with batching
-- [ ] Asset Management
+- [x] Asset Management
 - [ ] Scene & Entity Management
 - [ ] Physics & Collision Detection (basic AABB)
 - [x] Input & Event system
