@@ -1,12 +1,16 @@
 #include "Engine.h"
 #include "Application.h"
+#include "InputManager.h"
+#include <thread>
+#include <chrono>
 
 namespace Crumb
 {
 
     Engine::Engine(int width, int height, const std::string &title)
         : m_window(nullptr), m_running(false), m_deltaTime(0.0f), m_lastFrame(0.0f),
-          m_windowWidth(width), m_windowHeight(height)
+          m_windowWidth(width), m_windowHeight(height),
+          m_targetFPS(120.0f), m_targetFrameTime(1.0f / 120.0f), m_vsyncEnabled(false)
     {
     }
 
@@ -85,22 +89,46 @@ namespace Crumb
         }
 
         m_running = true;
-        m_lastFrame = glfwGetTime();
 
+        if (m_targetFPS <= 0.0f)
+        {
+            setTargetFPS(120.0f);
+        }
+
+        InputManager::initialize(m_window);
         m_application->initialize();
+
+        float lastTime = glfwGetTime();
 
         while (m_running && !glfwWindowShouldClose(m_window))
         {
-            calculateDeltaTime();
+            float currentTime = glfwGetTime();
+            float frameTime = currentTime - lastTime;
+            lastTime = currentTime;
 
             glfwPollEvents();
 
+            m_deltaTime = m_targetFrameTime;
+
             m_application->update(m_deltaTime);
+            InputManager::update();
 
             glClear(GL_COLOR_BUFFER_BIT);
             m_application->render();
-
             glfwSwapBuffers(m_window);
+
+            if (!m_vsyncEnabled)
+            {
+                float endTime = glfwGetTime();
+                float actualFrameTime = endTime - currentTime;
+
+                if (actualFrameTime < m_targetFrameTime)
+                {
+                    float sleepTime = m_targetFrameTime - actualFrameTime;
+                    std::this_thread::sleep_for(
+                        std::chrono::microseconds(static_cast<long long>(sleepTime * 1000000)));
+                }
+            }
         }
 
         m_application->shutdown();
@@ -145,6 +173,8 @@ namespace Crumb
     {
         Engine *engine = static_cast<Engine *>(glfwGetWindowUserPointer(window));
 
+        InputManager::onKeyEvent(key, scancode, action, mods);
+
         if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         {
             engine->requestClose();
@@ -154,5 +184,25 @@ namespace Crumb
         {
             engine->m_application->onKeyEvent(key, scancode, action, mods);
         }
+    }
+
+    void Engine::setTargetFPS(float fps)
+    {
+        m_targetFPS = fps;
+        m_targetFrameTime = 1.0f / fps;
+    }
+
+    void Engine::setVSync(bool enabled)
+    {
+        m_vsyncEnabled = enabled;
+        if (m_window)
+        {
+            glfwSwapInterval(enabled ? 1 : 0);
+        }
+    }
+
+    float Engine::getCurrentFPS() const
+    {
+        return m_deltaTime > 0.0f ? 1.0f / m_deltaTime : 0.0f;
     }
 }

@@ -25,6 +25,10 @@ namespace Crumb
         bool initializeOpenGL();
         void calculateDeltaTime();
 
+        float m_targetFPS;
+        float m_targetFrameTime;
+        bool m_vsyncEnabled;
+
     public:
         Engine(int width = 720, int height = 520, const std::string &title = "Crumb Engine");
         ~Engine();
@@ -41,6 +45,10 @@ namespace Crumb
         void setApplication(std::unique_ptr<Application> app);
 
         void requestClose() { m_running = false; }
+
+        void setTargetFPS(float fps);
+        void setVSync(bool enabled);
+        float getCurrentFPS() const;
 
     private:
         static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
