@@ -1,5 +1,6 @@
 #include "Application.h"
 
-namespace Crumb {
-    
+namespace Crumb
+{
+
 }
