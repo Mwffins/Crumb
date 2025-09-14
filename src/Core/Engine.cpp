@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Application.h"
 #include "InputManager.h"
+#include "../Rendering/Renderer2D.h"
 #include <thread>
 #include <chrono>
 
@@ -10,8 +11,10 @@ namespace Crumb
     Engine::Engine(int width, int height, const std::string &title)
         : m_window(nullptr), m_running(false), m_deltaTime(0.0f), m_lastFrame(0.0f),
           m_windowWidth(width), m_windowHeight(height),
-          m_targetFPS(120.0f), m_targetFrameTime(1.0f / 120.0f), m_vsyncEnabled(false)
+          m_targetFPS(120.0f), m_targetFrameTime(1.0f / 120.0f), m_vsyncEnabled(false),
+          m_projectionMode(ProjectionMode::Orthographic2D), m_autoUpdateProjection(true)
     {
+        updateProjectionMatrix();
     }
 
     Engine::~Engine()
@@ -30,6 +33,9 @@ namespace Crumb
         {
             return false;
         }
+
+        m_renderer = std::make_unique<Renderer2D>();
+        m_renderer->setProjectionMatrix(m_projectionMatrix);
 
         std::cout << "Crumb Engine initialized successfully!" << std::endl;
         return true;
@@ -137,6 +143,8 @@ namespace Crumb
 
     void Engine::shutdown()
     {
+        m_renderer.reset();
+
         if (m_window)
         {
             glfwDestroyWindow(m_window);
@@ -162,12 +170,65 @@ namespace Crumb
         m_lastFrame = current_frame;
     }
 
+    void Engine::updateProjectionMatrix()
+    {
+        switch (m_projectionMode)
+        {
+        case ProjectionMode::Orthographic2D:
+            m_projectionMatrix = glm::ortho(0.0f, (float)m_windowWidth, (float)m_windowHeight, 0.0f, -1.0f, 1.0f);
+            break;
+
+        case ProjectionMode::Orthographic2DCenter:
+        {
+            float halfWidth = (float)m_windowWidth * 0.5f;
+            float halfHeight = (float)m_windowHeight * 0.5f;
+            m_projectionMatrix = glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, -1.0f, 1.0f);
+        }
+        break;
+
+        case ProjectionMode::Custom:
+            // no need to update, user handled projection matrix
+            break;
+        }
+
+        if (m_renderer)
+        {
+            m_renderer->setProjectionMatrix(m_projectionMatrix);
+        }
+    }
+
+    void Engine::setProjectionMode(ProjectionMode mode)
+    {
+        m_projectionMode = mode;
+        if (mode != ProjectionMode::Custom)
+        {
+            updateProjectionMatrix();
+        }
+    }
+
+    void Engine::setCustomProjection(const glm::mat4 &projection)
+    {
+        m_projectionMatrix = projection;
+        m_projectionMode = ProjectionMode::Custom;
+
+        if (m_renderer)
+        {
+            m_renderer->setProjectionMatrix(m_projectionMatrix);
+        }
+    }
+
     void Engine::framebufferSizeCallback(GLFWwindow *window, int width, int height)
     {
         Engine *engine = static_cast<Engine *>(glfwGetWindowUserPointer(window));
         engine->m_windowWidth = width;
         engine->m_windowHeight = height;
         glViewport(0, 0, width, height);
+
+        if (engine->m_autoUpdateProjection && engine->m_projectionMode != ProjectionMode::Custom)
+        {
+            engine->updateProjectionMatrix();
+            std::cout << "Projection matrix updated for new window size: " << width << "x" << height << std::endl;
+        }
     }
 
     void Engine::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)

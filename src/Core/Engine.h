@@ -3,10 +3,20 @@
 #include <memory>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Crumb
 {
     class Application;
+    class Renderer2D;
+
+    enum class ProjectionMode
+    {
+        Orthographic2D,
+        Orthographic2DCenter,
+        Custom
+    };
 
     class Engine
     {
@@ -21,9 +31,16 @@ namespace Crumb
 
         std::unique_ptr<Application> m_application;
 
+        std::unique_ptr<Renderer2D> m_renderer;
+
+        glm::mat4 m_projectionMatrix;
+        ProjectionMode m_projectionMode;
+        bool m_autoUpdateProjection;
+
         bool initializeWindow();
         bool initializeOpenGL();
         void calculateDeltaTime();
+        void updateProjectionMatrix();
 
         float m_targetFPS;
         float m_targetFrameTime;
@@ -49,6 +66,13 @@ namespace Crumb
         void setTargetFPS(float fps);
         void setVSync(bool enabled);
         float getCurrentFPS() const;
+
+        glm::mat4 getProjectionMatrix() const { return m_projectionMatrix; }
+        void setProjectionMode(ProjectionMode mode);
+        void setCustomProjection(const glm::mat4 &projection);
+        void setAutoUpdateProjection(bool autoUpdate) { m_autoUpdateProjection = autoUpdate; }
+
+        Renderer2D *getRenderer() const { return m_renderer.get(); }
 
     private:
         static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
