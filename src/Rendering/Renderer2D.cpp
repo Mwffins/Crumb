@@ -1,6 +1,5 @@
 #include "Renderer2D.h"
 #include "Sprite.h"
-#include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
