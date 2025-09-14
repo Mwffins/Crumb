@@ -32,13 +32,14 @@ add_executable(crumb
     src/Rendering/Shader.cpp
     src/Core/Application.cpp
     src/Core/AssetManager.cpp
+    src/Core/InputManager.cpp
     src/Core/Engine.cpp
 )
 
 target_include_directories(crumb PRIVATE 
     dependencies
     dependencies/stb
-    )
+)
 
 target_compile_definitions(crumb PRIVATE GLFW_STATIC)
 
