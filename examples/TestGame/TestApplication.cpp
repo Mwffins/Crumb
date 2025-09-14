@@ -21,7 +21,7 @@ namespace TestGame
         Player *player = m_currentScene->createGameObject<Player>("MainPlayer",
                                                                   glm::vec2(100.0f, 100.0f),
                                                                   glm::vec2(128.0f, 128.0f));
-        player->setSpeed(300.0f);
+        player->setSpeed(750.0f);
 
         m_currentScene->initialize();
 
