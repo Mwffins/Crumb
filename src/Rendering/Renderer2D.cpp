@@ -2,6 +2,7 @@
 #include "Sprite.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+#include "ShaderSources.h"
 
 namespace Crumb
 {
@@ -187,12 +188,12 @@ namespace Crumb
     {
         m_projectionMatrix = projection;
         m_shader.Use();
-        glUniformMatrix4fv(glGetUniformLocation(m_shader.GetProgramID(), "u_projection"), 1, GL_FALSE, &projection[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(m_shader.GetProgramID(), "uProjection"), 1, GL_FALSE, &projection[0][0]);
     }
 
     void Renderer2D::initializeShaders()
     {
-        bool success = m_shader.LoadFromFiles("assets/shaders/sprite.vert", "assets/shaders/sprite.frag");
+        bool success = m_shader.LoadFromSource(ShaderSources::SpriteVertexShader, ShaderSources::SpriteFragmentShader);
         if (!success)
         {
             std::cerr << "Failed to load sprite shaders!" << std::endl;
@@ -200,10 +201,11 @@ namespace Crumb
         }
 
         m_shader.Use();
-
+        int samplers[MAX_TEXTURE_SLOTS];
         for (int i = 0; i < MAX_TEXTURE_SLOTS; i++)
         {
-            m_shader.SetInt("u_textures[" + std::to_string(i) + "]", i);
+            samplers[i] = i;
         }
+        m_shader.SetIntArray("uTextures", samplers, MAX_TEXTURE_SLOTS);
     }
 }
