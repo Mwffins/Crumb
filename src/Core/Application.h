@@ -19,7 +19,5 @@ namespace Crumb
         virtual void update(float delta_time) {}
         virtual void render() {}
         virtual void shutdown() {}
-
-        virtual void onKeyEvent(int key, int scancode, int action, int mods) {}
     };
 }

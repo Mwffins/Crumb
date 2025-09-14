@@ -179,11 +179,6 @@ namespace Crumb
         {
             engine->requestClose();
         }
-
-        if (engine->m_application)
-        {
-            engine->m_application->onKeyEvent(key, scancode, action, mods);
-        }
     }
 
     void Engine::setTargetFPS(float fps)
