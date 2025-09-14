@@ -28,7 +28,6 @@ namespace Crumb
         }
         
         m_initialized = true;
-        std::cout << "Scene '" << m_name << "' initialized with " << m_gameObjects.size() << " game objects." << std::endl;
     }
     
     void Scene::update(float deltaTime)
@@ -69,8 +68,6 @@ namespace Crumb
         m_gameObjects.clear();
         m_namedObjects.clear();
         m_initialized = false;
-        
-        std::cout << "Scene '" << m_name << "' shut down." << std::endl;
     }
     
     void Scene::addGameObject(std::unique_ptr<GameObject> gameObject)

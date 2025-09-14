@@ -17,9 +17,6 @@ namespace TestGame
     void Player::initialize()
     {
         m_sprite = std::make_unique<cr::Sprite>("player", m_position, m_size);
-        
-        std::cout << "Player '" << m_name << "' initialized at position (" 
-                  << m_position.x << ", " << m_position.y << ")" << std::endl;
     }
     
     void Player::update(float deltaTime)
@@ -46,12 +43,10 @@ namespace TestGame
     void Player::shutdown()
     {
         m_sprite.reset();
-        std::cout << "Player '" << m_name << "' shut down." << std::endl;
     }
     
     bool Player::onKeyPressed(const cr::KeyPressedEvent& event)
     {
-        std::cout << "Player received key press: " << cr::KeyUtils::keyToString(event.key) << std::endl;
         return false;
     }
     

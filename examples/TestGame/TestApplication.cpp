@@ -26,8 +26,7 @@ namespace TestGame
         m_currentScene->initialize();
 
         glClearColor(0.76f, 0.60f, 0.42f, 1.0f);
-
-        std::cout << "TestApplication initialized with Scene system!" << std::endl;
+        
         return true;
     }
 
@@ -62,20 +61,7 @@ namespace TestGame
     }
 
     bool TestApplication::onKeyPressed(const cr::KeyPressedEvent &event)
-    {
-        if (event.key == GLFW_KEY_1)
-        {
-            m_engine->setProjectionMode(cr::ProjectionMode::Orthographic2D);
-            std::cout << "Switched to Orthographic2D (top-left origin)" << std::endl;
-            return true;
-        }
-        else if (event.key == GLFW_KEY_2)
-        {
-            m_engine->setProjectionMode(cr::ProjectionMode::Orthographic2DCenter);
-            std::cout << "Switched to Orthographic2DCenter (centered origin)" << std::endl;
-            return true;
-        }
-        
+    {   
         if (m_currentScene && m_currentScene->dispatchKeyPressed(event))
         {
             return true;

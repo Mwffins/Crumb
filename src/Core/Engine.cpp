@@ -227,7 +227,6 @@ namespace Crumb
         if (engine->m_autoUpdateProjection && engine->m_projectionMode != ProjectionMode::Custom)
         {
             engine->updateProjectionMatrix();
-            std::cout << "Projection matrix updated for new window size: " << width << "x" << height << std::endl;
         }
     }
 
