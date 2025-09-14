@@ -22,8 +22,11 @@ The goal is to build the foundation for rendering, input, physics, and scene man
 ### Phase 2: Advanced Features
 
 - [ ] Text rendering (FreeType)
-- [ ] Debug/Editor GUI (Dear ImGui)
 - [ ] 2D audio (OpenAL)
+
+### Possible Features
+
+- [ ] Debug/Editor GUI (Dear ImGui)
 - [ ] Lua scripting for gameplay
 
 ---
