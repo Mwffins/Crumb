@@ -115,7 +115,7 @@ namespace Crumb
 
             glfwPollEvents();
 
-            m_deltaTime = m_targetFrameTime;
+            m_deltaTime = frameTime;
 
             m_application->update(m_deltaTime);
             InputManager::update();
