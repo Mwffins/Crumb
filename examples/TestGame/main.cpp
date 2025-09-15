@@ -12,6 +12,7 @@ int main()
     }
 
     engine.setApplication(std::make_unique<TestGame::TestApplication>());
+    engine.setVSync(true);
 
     engine.run();
 
