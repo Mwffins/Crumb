@@ -34,7 +34,10 @@ add_library(crumb_engine
     src/Core/Engine.cpp
     src/Utilities/KeyUtils.cpp
     src/Scene/GameObject.cpp
+    src/Scene/SpriteGameObject.cpp
     src/Scene/Scene.cpp
+    src/Physics/Collider.cpp
+    src/Physics/CollisionManager.cpp
 )
 
 target_include_directories(crumb_engine 
