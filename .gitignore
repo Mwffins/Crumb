@@ -26,6 +26,7 @@ compile_commands.json
 
 # CMake specific
 /.cmake/
+cmake-build-debug/
 CTestTestfile.cmake
 Testing/
 

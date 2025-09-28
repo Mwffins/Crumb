@@ -8,11 +8,11 @@
 namespace Crumb
 {
 
-    Engine::Engine(int width, int height, const std::string &title)
+    Engine::Engine(const int width, const int height, const std::string &title)
         : m_window(nullptr), m_running(false), m_deltaTime(0.0f), m_lastFrame(0.0f),
           m_windowWidth(width), m_windowHeight(height),
-          m_targetFPS(120.0f), m_targetFrameTime(1.0f / 120.0f), m_vsyncEnabled(false),
-          m_projectionMode(ProjectionMode::Orthographic2D), m_autoUpdateProjection(true)
+          m_projectionMode(ProjectionMode::Orthographic2D), m_autoUpdateProjection(true), m_targetFPS(120.0f),
+          m_targetFrameTime(1.0f / 120.0f), m_vsyncEnabled(false)
     {
         updateProjectionMatrix();
     }
@@ -53,7 +53,7 @@ namespace Crumb
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        m_window = glfwCreateWindow(m_windowWidth, m_windowHeight, "Crumb Engine", NULL, NULL);
+        m_window = glfwCreateWindow(m_windowWidth, m_windowHeight, "Crumb Engine", nullptr, nullptr);
         if (!m_window)
         {
             std::cout << "Failed to create GLFW window" << std::endl;
@@ -70,7 +70,7 @@ namespace Crumb
         return true;
     }
 
-    bool Engine::initializeOpenGL()
+    bool Engine::initializeOpenGL() const
     {
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
@@ -94,8 +94,6 @@ namespace Crumb
             return;
         }
 
-        m_running = true;
-
         if (m_targetFPS <= 0.0f)
         {
             setTargetFPS(120.0f);
@@ -105,12 +103,12 @@ namespace Crumb
         InputManager::setApplication(m_application.get());
         m_application->initialize();
 
-        float lastTime = glfwGetTime();
+        double lastTime = glfwGetTime();
 
-        while (m_running && !glfwWindowShouldClose(m_window))
+        while (!glfwWindowShouldClose(m_window))
         {
-            float currentTime = glfwGetTime();
-            float frameTime = currentTime - lastTime;
+            const double currentTime = glfwGetTime();
+            const double frameTime = currentTime - lastTime;
             lastTime = currentTime;
 
             glfwPollEvents();

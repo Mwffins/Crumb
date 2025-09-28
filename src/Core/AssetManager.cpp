@@ -15,7 +15,7 @@ namespace Crumb
 
     unsigned int AssetManager::loadTexture(const std::string &name, const std::string &path)
     {
-        if (m_textures.count(name))
+        if (m_textures.contains(name))
         {
             return m_textures[name];
         }

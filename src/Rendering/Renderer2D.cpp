@@ -28,16 +28,16 @@ namespace Crumb
         glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
         glBufferData(GL_ARRAY_BUFFER, MAX_VERTICES * sizeof(QuadVertex), nullptr, GL_DYNAMIC_DRAW);
 
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void *)offsetof(QuadVertex, position));
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), static_cast<void *>(nullptr));
         glEnableVertexAttribArray(0);
 
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void *)offsetof(QuadVertex, texCoords));
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), reinterpret_cast<void *>(offsetof(QuadVertex, texCoords)));
         glEnableVertexAttribArray(1);
 
-        glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), (void *)offsetof(QuadVertex, textureSlot));
+        glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), reinterpret_cast<void *>(offsetof(QuadVertex, textureSlot)));
         glEnableVertexAttribArray(2);
 
-        uint32_t *indices = new uint32_t[MAX_INDICES];
+        auto *indices = new uint32_t[MAX_INDICES];
         uint32_t offset = 0;
         for (size_t i = 0; i < MAX_INDICES; i += 6)
         {
@@ -58,9 +58,9 @@ namespace Crumb
         m_quadBuffer = new QuadVertex[MAX_VERTICES];
         m_quadBufferPtr = m_quadBuffer;
 
-        for (int i = 0; i < MAX_TEXTURE_SLOTS; i++)
+        for (unsigned int & m_textureSlot : m_textureSlots)
         {
-            m_textureSlots[i] = 0;
+            m_textureSlot = 0;
         }
 
         glGenTextures(1, &m_whiteTexture);
@@ -102,7 +102,7 @@ namespace Crumb
 
         const glm::vec2 &position = sprite.getPosition();
         const glm::vec2 &size = sprite.getSize();
-        unsigned int textureID = sprite.getTextureID();
+        const unsigned int textureID = sprite.getTextureID();
 
         float textureSlot = 0.0f;
         if (textureID != 0)
@@ -112,7 +112,7 @@ namespace Crumb
             {
                 if (m_textureSlots[i] == textureID)
                 {
-                    textureSlot = (float)i;
+                    textureSlot = static_cast<float>(i);
                     break;
                 }
             }
@@ -123,11 +123,11 @@ namespace Crumb
                 {
                     flush();
                     begin();
-                    textureSlot = (float)m_textureSlotIndex;
+                    textureSlot = static_cast<float>(m_textureSlotIndex);
                 }
                 else
                 {
-                    textureSlot = (float)m_textureSlotIndex;
+                    textureSlot = static_cast<float>(m_textureSlotIndex);
                 }
                 m_textureSlots[m_textureSlotIndex] = textureID;
                 m_textureSlotIndex++;
@@ -167,7 +167,7 @@ namespace Crumb
         if (m_quadCount == 0)
             return;
 
-        uint32_t dataSize = (uint32_t)((uint8_t *)m_quadBufferPtr - (uint8_t *)m_quadBuffer);
+        auto dataSize = static_cast<uint32_t>(reinterpret_cast<uint8_t *>(m_quadBufferPtr) - reinterpret_cast<uint8_t *>(m_quadBuffer));
         glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, m_quadBuffer);
 

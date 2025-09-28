@@ -23,8 +23,8 @@ namespace Crumb
     private:
         GLFWwindow *m_window;
         bool m_running;
-        float m_deltaTime;
-        float m_lastFrame;
+        double m_deltaTime;
+        double m_lastFrame;
 
         int m_windowWidth;
         int m_windowHeight;
@@ -38,7 +38,7 @@ namespace Crumb
         bool m_autoUpdateProjection;
 
         bool initializeWindow();
-        bool initializeOpenGL();
+        [[nodiscard]] bool initializeOpenGL() const;
         void calculateDeltaTime();
         void updateProjectionMatrix();
 
@@ -47,17 +47,17 @@ namespace Crumb
         bool m_vsyncEnabled;
 
     public:
-        Engine(int width = 720, int height = 520, const std::string &title = "Crumb Engine");
+        explicit Engine(int width = 720, int height = 520, const std::string &title = "Crumb Engine");
         ~Engine();
 
         bool initialize();
         void run();
         void shutdown();
 
-        GLFWwindow *getWindow() const { return m_window; }
-        float getDeltaTime() const { return m_deltaTime; }
-        int getWindowWidth() const { return m_windowWidth; }
-        int getWindowHeight() const { return m_windowHeight; }
+        [[nodiscard]] GLFWwindow *getWindow() const { return m_window; }
+        [[nodiscard]] float getDeltaTime() const { return m_deltaTime; }
+        [[nodiscard]] int getWindowWidth() const { return m_windowWidth; }
+        [[nodiscard]] int getWindowHeight() const { return m_windowHeight; }
 
         void setApplication(std::unique_ptr<Application> app);
 
@@ -65,14 +65,14 @@ namespace Crumb
 
         void setTargetFPS(float fps);
         void setVSync(bool enabled);
-        float getCurrentFPS() const;
+        [[nodiscard]] float getCurrentFPS() const;
 
-        glm::mat4 getProjectionMatrix() const { return m_projectionMatrix; }
+        [[nodiscard]] glm::mat4 getProjectionMatrix() const { return m_projectionMatrix; }
         void setProjectionMode(ProjectionMode mode);
         void setCustomProjection(const glm::mat4 &projection);
         void setAutoUpdateProjection(bool autoUpdate) { m_autoUpdateProjection = autoUpdate; }
 
-        Renderer2D *getRenderer() const { return m_renderer.get(); }
+        [[nodiscard]] Renderer2D *getRenderer() const { return m_renderer.get(); }
 
     private:
         static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
